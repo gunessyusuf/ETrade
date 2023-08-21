@@ -4,8 +4,9 @@ using System.Linq.Expressions;
 
 namespace AppCore.Business.DataAccess.EntityFramework.Bases
 {
-    public interface IService<TEntity> : IDisposable where TEntity : Record, new()
+    public interface IService<TEntity> : IDisposable where TEntity : Record, new() // Tüm veritabanı işlemlerini operatif olarak temsil edecek interface sınıfımız
     {
+        
         // product => product.Category, product => product.ProductStores
         // Query().ToList(), Query().SingleOrDefault(product => product.Id == 19),
         // Query().Where(product => product.CategoryId == 1),

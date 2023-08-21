@@ -26,7 +26,7 @@ namespace AppCore.Business.DataAccess.EntityFramework.Bases
             if (save)
             {
                 Save();
-                return new SuccessResult("Added successfully.");
+                return new SuccessResult(ADDEDMESSAGE);
             }
 
             return new ErrorResult(ERRORMESSAGE);
