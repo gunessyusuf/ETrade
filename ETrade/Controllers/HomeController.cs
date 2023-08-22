@@ -1,8 +1,8 @@
-﻿using ETradeIA.Models;
+﻿using ETrade.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace ETradeIA.Controllers
+namespace ETrade.Controllers
 {
     public class HomeController : Controller
     {

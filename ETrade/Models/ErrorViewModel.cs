@@ -1,4 +1,4 @@
-namespace ETradeIA.Models
+namespace ETrade.Models
 {
     public class ErrorViewModel
     {
