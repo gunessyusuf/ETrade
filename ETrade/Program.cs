@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 #region IoC (Inversion of Control) Container: Baðýmlýklarýn Yönetilmesi
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // OnConfiguring yerine appsettinsteki connection stringi kullandýk.
-builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("MVC")));
+
 
 builder.Services.AddScoped<ProductServiceBase, ProductService>();
 builder.Services.AddScoped<CategoryServiceBase, CategoryService>(); // Controllerlara enjekte edilen servislerin baðýmlýklarý
