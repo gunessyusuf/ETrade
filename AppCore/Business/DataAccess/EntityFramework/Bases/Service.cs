@@ -22,6 +22,7 @@ namespace AppCore.Business.DataAccess.EntityFramework.Bases
 
         public virtual Result Add(TEntity entity, bool save = true)
         {
+            entity.Guid = Guid.NewGuid().ToString();
             _db.Set<TEntity>().Add(entity); // db nin TEntity setine add ile eklenecek olarak işlenecek.
             if (save)
             {
@@ -64,18 +65,18 @@ namespace AppCore.Business.DataAccess.EntityFramework.Bases
             return query;
         }
 
-        public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] entitiesToInclude)
+        public  IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] entitiesToInclude)
         {
             var query = Query(entitiesToInclude);
             query = query.Where(predicate);
             return query;
         }
 
-        public virtual IQueryable<TEntity> QueryAsNoTracking(params Expression<Func<TEntity, object>>[] entitiesToInclude)
+        public  IQueryable<TEntity> QueryAsNoTracking(params Expression<Func<TEntity, object>>[] entitiesToInclude)
         {
             return Query(entitiesToInclude).AsNoTracking();
         }
-        public virtual IQueryable<TEntity> QueryAsNoTracking(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] entitiesToInclude)
+        public  IQueryable<TEntity> QueryAsNoTracking(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] entitiesToInclude)
         {
             return QueryAsNoTracking(entitiesToInclude).Where(predicate).AsNoTracking();
         }

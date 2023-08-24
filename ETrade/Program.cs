@@ -8,10 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region IoC (Inversion of Control) Container: Baðýmlýklarýn Yönetilmesi
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // OnConfiguring yerine appsettinsteki connection stringi kullandýk.
-builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("MVC")));
+var connectingString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectingString, b => b.MigrationsAssembly("MVC")));
 
+// AddScoped: istek(request) boyunca objenin referansýný(genelde interface veya abstract class) kullandýðýmýz yerde obje (somut class'tan oluþturulacak) bir kere oluþturulur ve yanýt(response) dönene kadar bu obje hayatta kalýr.
+// AddSingleton: web uygulamasý baþladýðýnda objenin referansýný (genelde interface veya abstract class) kullandýðýmýz yerde obje (somut class'tan oluþturulacak) bir kere oluþturulur ve uygulama çalýþtýðý sürece(IIS üzerinden uygulama durdurulmadýðý veya yeniden baþlatýlmadýðý) sürece bu obje hayatta kalýr.
+// AddTransient: Ýstek(request) baðýmsýz ihtiyaç olan objenin referansýný(genelde interface veya abstract class kullandýðýmýz her yerde bu objeyi new'ler.
+// Genelde AddScoped methodu kullanýlýr.
 builder.Services.AddScoped<ProductServiceBase, ProductService>();
 builder.Services.AddScoped<CategoryServiceBase, CategoryService>(); // Controllerlara enjekte edilen servislerin baðýmlýklarý
 

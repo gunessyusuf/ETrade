@@ -9,13 +9,15 @@ namespace Business.DataAccess.Context
 
         public DbSet<Category> Categories { get; set; }
 
+
+
         // options parametresinde veritabanı ile ilgili bilgiler var, örneğin connection string
         public Db(DbContextOptions options) : base(options) // dependency injenciton var. Dependency injection olan her yer, program.cs de yönetilir.
         {
 
         }
 
-        // OnConfuguring methodunda connection string kullanılması yerine yukarıdaki parametreli consructor üzerinden kullanılan yazılan DbContextOptions tipindeki parametre ile connection string kullanılmalıdır. 
+        // OnConfiguring methodunda connection string kullanılması yerine yukarıdaki parametreli constructor üzerinden kullanılan yazılan DbContextOptions tipindeki parametre ile connection string kullanılmalıdır. 
         // Bu connection string uygulama veya restful servis projesindeki appsettings.json veya appsettings.Development.json dosyalarında tanımlanan connection string'dir.
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
