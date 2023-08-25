@@ -2,6 +2,7 @@
 using Business.DataAccess.Context;
 using Business.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Business.DataAccess.Services
 {
@@ -17,6 +18,11 @@ namespace Business.DataAccess.Services
         public CategoryService(Db db) : base(db)
         {
 
+        }
+
+        public override IQueryable<Category> Query(params Expression<Func<Category, object>>[] entitiesToInclude)
+        {
+            return base.Query(entitiesToInclude).OrderBy(c => c.Name);
         }
     }
 }

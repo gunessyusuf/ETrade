@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectingString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectingString, b => b.MigrationsAssembly("MVC")));
+builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectingString));
 
 // AddScoped: istek(request) boyunca objenin referansýný(genelde interface veya abstract class) kullandýðýmýz yerde obje (somut class'tan oluþturulacak) bir kere oluþturulur ve yanýt(response) dönene kadar bu obje hayatta kalýr.
 // AddSingleton: web uygulamasý baþladýðýnda objenin referansýný (genelde interface veya abstract class) kullandýðýmýz yerde obje (somut class'tan oluþturulacak) bir kere oluþturulur ve uygulama çalýþtýðý sürece(IIS üzerinden uygulama durdurulmadýðý veya yeniden baþlatýlmadýðý) sürece bu obje hayatta kalýr.
@@ -38,7 +38,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthorization(); // Sen iþlem için yetkili misin?
 
 app.MapControllerRoute(
     name: "default",
