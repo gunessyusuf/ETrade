@@ -3,7 +3,7 @@
 @*Model namespace using directive should be added to _ViewImports.cshtml.*@
 
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create Product";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -11,21 +11,42 @@
 <h4>Product</h4>
 <hr />
 <div class="row">
-    <div class="col-12">
-        <form asp-action="Create">
-		@Html.AntiForgeryToken()
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="row mb-3">
-                <label asp-for="Name" class="col-2 col-form-label"></label>
+	<div class="col-12">
+
+		@* <form action="/Products/Create"> *@
+		@*  <form asp-action="Create"> *@
+		@using (@Html.BeginForm("Create", "Products"))
+		{
+			@Html.AntiForgeryToken()
+
+		@* 	@if (ViewData["Message"] is not null)
+			<p class="" *@
+
+
+
+			@*  <div asp-validation-summary="All" class="text-danger"></div> *@
+			@Html.ValidationSummary(false, null, new {@class = "text-danger"})
+
+			<div class="row mb-3">
+				@*   <label asp-for="Name" class="col-2 col-form-label"></label> *@
+			  @Html.LabelFor(p => p.Name, new{@class = "col-2 col-form-label"})
+
 				<div class="col-5">
-					<input asp-for="Name" class="form-control" />
-					<span asp-validation-for="Name" class="text-danger"></span>
+					@* <input asp-for="Name" class="form-control" /> *@
+					@Html.TextBoxFor(p => p.Name, new{@class = "form-control"})
+
+					@* <span asp-validation-for="Name" class="text-danger"></span> *@
+					@Html.ValidationMessageFor(p => p.Name, null, new{@class = "text-danger"})
+
+
 				</div>
             </div>
             <div class="row mb-3">
                 <label asp-for="Description" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<input asp-for="Description" class="form-control" />
+					@* <textarea asp-for="Description" class="form-control" rows="4" ></textarea> *@
+					@Html.TextAreaFor(p => p.Description, new{rows = "4", @class = "form-control"})
+
 					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
             </div>
@@ -50,12 +71,12 @@
 					<span asp-validation-for="ExpirationDate" class="text-danger"></span>
 				</div>
             </div>
-            <div class="row mb-3">
+           @*  <div class="row mb-3">
 				<label asp-for="IsContinued" class="col-2 col-form-label"></label>
 				<div class="col-5" style="padding-top: 7px;">
 					<input class="form-check-input" asp-for="IsContinued" />
                 </div>
-            </div>
+            </div> *@
             <div class="row mb-3">
                 <label asp-for="CategoryId" class="col-2 col-form-label"></label>
 				<div class="col-5">
@@ -81,7 +102,8 @@
 					<a asp-action="Index">Back to List</a>
 				</div>
             </div>
-        </form>
+       @*  </form> *@
+	   }
     </div>
 </div>
 

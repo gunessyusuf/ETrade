@@ -39,6 +39,7 @@ namespace MVC.Controllers
         }
 
         // GET: Products/Create
+        
         public IActionResult Create()
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
@@ -59,23 +60,29 @@ namespace MVC.Controllers
             if (ModelState.IsValid)
             {
                 // TODO: Add insert service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _productService.Add(product);
+                if (result.IsSuccessful)
+                {
+                    //return RedirectToAction("Index");
+					return RedirectToAction(nameof(Index));
+				}
+                
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
         // GET: Products/Edit/5
         public IActionResult Edit(int id)
         {
-            Product product = null; // TODO: Add get item service logic here
+            Product product = _productService.Query().SingleOrDefault(p => p.Id == id); // TODO: Add get item service logic here
             if (product == null)
             {
-                return NotFound();
+                return View("_Error", "Product not found!");
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -88,21 +95,28 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
+
+                var result = _productService.Update(product);
+                if (true)
+                {
+                    TempData["Message"] = result.Message;
+					return RedirectToAction(nameof(Index));
+				}
+                ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
         // GET: Products/Delete/5
         public IActionResult Delete(int id)
         {
-            Product product = null; // TODO: Add get item service logic here
+            Product product = _productService.Query().SingleOrDefault(_p => _p.Id == id);
+
             if (product == null)
             {
-                return NotFound();
+                return View("_Error", "Product not found");
             }
             return View(product);
         }
@@ -112,7 +126,9 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            // TODO: Add delete service logic here
+            var result = _productService.Delete(p => p.Id == id);
+            TempData["Message"] = result.Message;
+
             return RedirectToAction(nameof(Index));
         }
     }
