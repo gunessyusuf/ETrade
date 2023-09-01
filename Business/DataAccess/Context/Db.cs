@@ -9,6 +9,10 @@ namespace Business.DataAccess.Context
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Store> Stores { get; set; }
+
+        public DbSet<ProductStore> ProductStores { get; set; }
+
 
 
         // options parametresinde veritabanı ile ilgili bilgiler var, örneğin connection string

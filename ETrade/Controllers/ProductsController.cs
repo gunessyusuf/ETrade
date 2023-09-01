@@ -12,15 +12,16 @@ namespace MVC.Controllers
         // Add service injections here
         private readonly ProductServiceBase _productService;
         private readonly CategoryServiceBase _categoryService;
+        private readonly StoreServiceBase _storeService;
+		public ProductsController(ProductServiceBase productService, CategoryServiceBase categoryService, StoreServiceBase storeService)
+		{
+			_productService = productService;
+			_categoryService = categoryService;
+			_storeService = storeService;
+		}
 
-        public ProductsController(ProductServiceBase productService, CategoryServiceBase categoryService)
-        {
-            _productService = productService;
-            _categoryService = categoryService;
-        }
-
-        // GET: Products
-        public IActionResult Index()
+		// GET: Products
+		public IActionResult Index()
         {
             List<Product> productList = _productService.Query(p => p.Category).ToList(); // TODO: Add get list service logic here
             return View(productList);
@@ -47,7 +48,11 @@ namespace MVC.Controllers
             List<Category> categories = _categoryService.Query().ToList();
             //ViewData["CategoryId"] = new SelectList(categories, "Id", "Name");
             ViewBag.CategoryId = new SelectList(categories, "Id", "Name");
-            return View();
+            Product model = new Product()
+            {
+                ExpirationDate = DateTime.Today.AddMonths(6)
+            };
+            return View(model);
         }
 
         // POST: Products/Create

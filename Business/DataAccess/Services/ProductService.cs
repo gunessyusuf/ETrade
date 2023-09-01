@@ -37,6 +37,11 @@ namespace Business.DataAccess.Services
                 ExpirationDate = p.ExpirationDate,
                 Guid = p.Guid,
                 IsContinued = p.IsContinued,
+                ProductStores = p.ProductStores,
+
+                StoreIds = p.ProductStores.Select(ps => ps.StoreId).ToList(),
+
+               
 
                 UnitPriceDisplay = p.UnitPrice.HasValue ? p.UnitPrice.Value.ToString("C2", new CultureInfo("en-US")) : "",
                 ExpirationDateDisplay = p.ExpirationDate.HasValue ? p.ExpirationDate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")) : "",

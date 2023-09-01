@@ -75,10 +75,12 @@ namespace Business.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("StockAmount")
+                    b.Property<int?>("StockAmount")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<double>("UnitPrice")
+                    b.Property<double?>("UnitPrice")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -86,6 +88,45 @@ namespace Business.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Business.DataAccess.Entities.ProductStore", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "StoreId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("ProductStores");
+                });
+
+            modelBuilder.Entity("Business.DataAccess.Entities.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsVirtual")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("Business.DataAccess.Entities.Product", b =>
@@ -97,9 +138,38 @@ namespace Business.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Business.DataAccess.Entities.ProductStore", b =>
+                {
+                    b.HasOne("Business.DataAccess.Entities.Product", "Product")
+                        .WithMany("ProductStores")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Business.DataAccess.Entities.Store", "Store")
+                        .WithMany("ProductStores")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("Business.DataAccess.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Business.DataAccess.Entities.Product", b =>
+                {
+                    b.Navigation("ProductStores");
+                });
+
+            modelBuilder.Entity("Business.DataAccess.Entities.Store", b =>
+                {
+                    b.Navigation("ProductStores");
                 });
 #pragma warning restore 612, 618
         }

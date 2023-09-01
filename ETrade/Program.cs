@@ -18,6 +18,7 @@ builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectingStri
 // Genelde AddScoped methodu kullanýlýr.
 builder.Services.AddScoped<ProductServiceBase, ProductService>();
 builder.Services.AddScoped<CategoryServiceBase, CategoryService>(); // Controllerlara enjekte edilen servislerin baðýmlýklarý
+builder.Services.AddScoped<StoreServiceBase, StoreService>();
 
 #endregion
 

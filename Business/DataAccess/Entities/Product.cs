@@ -40,6 +40,12 @@ namespace Business.DataAccess.Entities
         public int? CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+        public List<ProductStore> ProductStores { get; set; }
+
+        [NotMapped]
+        [DisplayName("Stores")]
+        public List<int> StoreIds { get; set; }
     }
     #endregion
 
@@ -57,6 +63,10 @@ namespace Business.DataAccess.Entities
         [NotMapped]
         [DisplayName("Is Continued")]
         public string IsContinuedDisplay { get; set; }
+
+        [NotMapped]
+        [DisplayName("Stores")]
+        public string StoreNamesDisplay { get; set; }
     }
 
     #endregion
